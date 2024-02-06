@@ -7,15 +7,15 @@ import (
 type M3UContentParser struct {
 	m3uFileContent string
 	dirtyItems     []string
-	items          []M3UItem
+	Items          []M3UItem
 	CountItems     int
 
 	TvgUrl  string
 	Cache   int
 	Refresh int
 
-	offsets int
-	limits  int
+	Offsets int
+	Limits  int
 }
 
 func NewM3UContentParser() *M3UContentParser {
@@ -42,8 +42,8 @@ func (parser *M3UContentParser) Parse() *M3UContentParser {
 	parser.dirtyItems = parser.dirtyItems[1:]
 
 	for _, item := range parser.dirtyItems {
-		parser.items = append(parser.items, *NewM3UItem(item))
-		parser.countItems++
+		parser.Items = append(parser.Items, *NewM3UItem(item))
+		parser.CountItems++
 	}
 
 	return parser
@@ -74,25 +74,25 @@ func (parser *M3UContentParser) GetDirtyItems() []string {
 }
 
 func (parser *M3UContentParser) GetItems() []M3UItem {
-	return parser.items
+	return parser.Items
 }
 
 func (parser *M3UContentParser) Offset(offset int) *M3UContentParser {
-	parser.offsets = offset
+	parser.Offsets = offset
 
 	return parser
 }
 
 func (parser *M3UContentParser) Limit(limit int) *M3UContentParser {
-	parser.limits = limit
+	parser.Limits = limit
 
 	return parser
 }
 
 func (parser *M3UContentParser) All() []M3UItem {
-	if parser.limits <= 0 {
-		parser.limits = parser.countItems
+	if parser.Limits <= 0 {
+		parser.Limits = parser.CountItems
 	}
 
-	return parser.items[parser.offsets:parser.limits]
+	return parser.Items[parser.Offsets:parser.Limits]
 }
